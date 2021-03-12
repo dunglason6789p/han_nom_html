@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+function inputElm() {
+  return document.querySelector('#elmId_kanjiInput');
+}
+function iframeElm() {
+  return document.querySelector('#elmId_iframeHvdic');
+}
+function searchByInput() {
+  const inputText = inputElm().value.replaceAll(/ /g, '');
+  if (inputText.length === 1) {
+    fetch('http://localhost:4300/lookup?kanji='+encodeURIComponent(inputText)).then(async response => {
+      console.log(response);
+      const html = await response.text();
+      console.log(html)
+      const iframeElement = iframeElm();
+      setIframeContent(iframeElement, html);
+    }).catch(error => {
+      alert(JSON.stringify(error));
+    });
+  } else {
+    alert('Invalid input length: '+inputText.length);
+  }
+}
+function setIframeContent_OLD(iframeElement, contentHtmlStr) {
+  const newIframeContent = 'data:text/html;charset=utf-8,' + escape(html);
+  iframeElement.src = newIframeContent;
+}
+function setIframeContent_OLD2(iframeElement, contentHtmlStr) {
+  iframeElement.innerHTML = contentHtmlStr;
+}
+function setIframeContent_OLD3(iframeElement, contentHtmlStr) {
+  // Set the iframe's src to about:blank so that it conforms to the same-origin policy
+  //iframeElement.src = "about:blank";
+
+  // Set the iframe's new HTML
+  iframeElement.contentWindow.document.open();
+  iframeElement.contentWindow.document.write(newHTML);
+  iframeElement.contentWindow.document.close();
+}
+function setIframeContent_OLD4(iframeElement, contentHtmlStr) {
+  const iframeHtmlElm = iframeElement.querySelector('html');
+  iframeHtmlElm.innerHTML = contentHtmlStr;
+}
+function setIframeContent(iframeElement, contentHtmlStr) {
+  const iframeHtmlElm = iframeElement.contentWindow.document.querySelector('html');
+  iframeHtmlElm.innerHTML = contentHtmlStr;
+}
+  </script>
+</head>
+<body>
+<div>
+  <label for="elmId_kanjiInput">Insert Kanji here:</label>
+  <input id="elmId_kanjiInput"/>
+  <button onclick="searchByInput()">Find</button>
+</div>
+<div>
+  <iframe id="elmId_iframeHvdic" sandbox width="900" height="800"></iframe>
+</div>
+</body>
+</html>
