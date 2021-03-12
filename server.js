@@ -29,11 +29,11 @@ app.get('/lookup', async function (req, res) {
   const filePath = pathModule.join(CACHE_FOLDER_PATH, kanji);
   const isCachedBefore = await isFileExist(filePath);
   if (isCachedBefore) {
-    console.log(`Cache-file ${filePath} existed for kanji ${kanji}`);
+    console.log(`Found cache-file ${filePath} for kanji ${kanji}`);
     const fileContent = await readFile(filePath);
     res.send(fileContent);
   } else {
-    console.log(`Cache-file ${filePath} NOT existed for kanji ${kanji}, now looking-up from hvdic!`);
+    console.log(`Not found cache-file ${filePath} for kanji ${kanji}, now looking-up from hvdic!`);
     const html = await lookupHvdic(kanji);
     res.send(html);
   }

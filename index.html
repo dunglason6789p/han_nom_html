@@ -26,29 +26,23 @@ function searchByInput() {
     alert('Invalid input length: '+inputText.length);
   }
 }
-function setIframeContent_OLD(iframeElement, contentHtmlStr) {
-  const newIframeContent = 'data:text/html;charset=utf-8,' + escape(html);
-  iframeElement.src = newIframeContent;
-}
-function setIframeContent_OLD2(iframeElement, contentHtmlStr) {
-  iframeElement.innerHTML = contentHtmlStr;
-}
-function setIframeContent_OLD3(iframeElement, contentHtmlStr) {
-  // Set the iframe's src to about:blank so that it conforms to the same-origin policy
-  //iframeElement.src = "about:blank";
-
-  // Set the iframe's new HTML
-  iframeElement.contentWindow.document.open();
-  iframeElement.contentWindow.document.write(newHTML);
-  iframeElement.contentWindow.document.close();
-}
-function setIframeContent_OLD4(iframeElement, contentHtmlStr) {
-  const iframeHtmlElm = iframeElement.querySelector('html');
-  iframeHtmlElm.innerHTML = contentHtmlStr;
-}
 function setIframeContent(iframeElement, contentHtmlStr) {
   const iframeHtmlElm = iframeElement.contentWindow.document.querySelector('html');
   iframeHtmlElm.innerHTML = contentHtmlStr;
+  setTimeout(() => {
+    const list_adsbygoogle = iframeHtmlElm.querySelectorAll('.adsbygoogle');
+    for (const ad of list_adsbygoogle) {
+      ad.style.display = 'none';
+      console.log('Hide another ad!');
+    }
+    const list_anim = iframeHtmlElm.querySelectorAll('.hanzi-writer');
+    for (const anim of list_anim) {
+      anim.style.display = 'none';
+      console.log('Hide another anim!');
+    }
+    iframeHtmlElm.querySelector('#header-content').style.display = 'none';
+    iframeHtmlElm.querySelector('#LookupForm').style.display = 'none';
+  }, 100);
 }
   </script>
 </head>
@@ -59,7 +53,7 @@ function setIframeContent(iframeElement, contentHtmlStr) {
   <button onclick="searchByInput()">Find</button>
 </div>
 <div>
-  <iframe id="elmId_iframeHvdic" sandbox width="900" height="800"></iframe>
+  <iframe id="elmId_iframeHvdic" sandbox width="1800" height="800"></iframe>
 </div>
 </body>
 </html>
