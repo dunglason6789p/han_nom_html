@@ -77,16 +77,20 @@ async function lookupHvdic(kanji) {
       axios.get(urlFull).then(result => {
         console.log("Received from: "+urlFull);
         const html = result.data;
-        resolve(html);
-        // Write to cache.
-        const filePath = pathModule.join(CACHE_FOLDER_PATH, kanji);
-        fs.writeFile(filePath, html, function(err) {
-          if (err) {
-            console.error(err);
-          } else {
-            console.log(`Saved ${filePath}`);
-          }
-        });
+        if (!html || html.indexOf('<html') < 0) {
+          reject(new Error('Invalid response from HVDIC !'));
+        } else {
+          resolve(html);
+          // Write to cache.
+          const filePath = pathModule.join(CACHE_FOLDER_PATH, kanji);
+          fs.writeFile(filePath, html, function(err) {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log(`Saved ${filePath}`);
+            }
+          });
+        }
       }, rejectReason => {
         console.error(rejectReason);
         reject(rejectReason);
