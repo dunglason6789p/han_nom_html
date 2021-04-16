@@ -7,6 +7,7 @@ const axios = require('axios');
 const APP_ROOT_PATH = require('./root.js').APP_ROOT_PATH;
 const CACHE_FOLDER_PATH = pathModule.join(APP_ROOT_PATH, 'cache_hvdic');
 const HANNOM_WEB_ROOT_URL = 'http://hvdic.thivien.net/whv/';
+const PORT = 3000;
 
 const cors = require('cors');
 const express = require('express');
@@ -39,7 +40,7 @@ app.get('/lookup', async function (req, res) {
   }
 });
 
-app.listen(4300);
+app.listen(PORT);
 
 async function isFileExist(filePath) {
   return new Promise((resolve, reject) => {
@@ -101,5 +102,5 @@ async function lookupHvdic(kanji) {
   });
 }
 
-console.log("Server is now running!");
+console.log(`Server is now running on port ${PORT}!`);
 
