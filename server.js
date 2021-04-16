@@ -101,3 +101,5 @@ async function lookupHvdic(kanji) {
   });
 }
 
+console.log("Server is now running!");
+
