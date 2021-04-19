@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <script src="client_config.js"></script>
   <script>
 function inputElm() {
   return document.querySelector('#elmId_kanjiInput');
@@ -13,7 +14,7 @@ function iframeElm() {
 function searchByInput() {
   const inputText = inputElm().value.replaceAll(/ /g, '');
   if (inputText.length === 1) {
-    fetch('http://localhost:4300/lookup?kanji='+encodeURIComponent(inputText)).then(async response => {
+    fetch(SERVER_ROOT_URL+'/lookup?kanji='+encodeURIComponent(inputText)).then(async response => {
       console.log(response);
       const html = await response.text();
       console.log(html)
